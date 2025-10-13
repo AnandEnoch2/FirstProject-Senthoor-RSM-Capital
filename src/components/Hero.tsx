@@ -3,6 +3,17 @@ import { ArrowRight, Shield, TrendingUp, Award, Sparkles, Star } from 'lucide-re
 
 export const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
+
+
+
+   useEffect(() => {
+      // Fetch Home page data from WordPress
+      fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+        .then(res => res.json())
+        .then(data => setHomeData(data))
+        .catch(err => console.log(err));
+    }, []);
 
   useEffect(() => {
     setIsVisible(true);
@@ -59,7 +70,7 @@ export const Hero = () => {
             <a href="tel:+918056312849" className="group px-6 sm:px-8 py-3 sm:py-4 border-2 border-blue-600 text-blue-700 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-indigo-700 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg w-full sm:w-auto">
               <span className="flex items-center space-x-2">
                 <Shield className="w-5 h-5" />
-                <span>Call +91 8056312849</span>
+                <span>Call +91  {homeData?.acf?.phone}</span>
               </span>
             </a>
           </div>

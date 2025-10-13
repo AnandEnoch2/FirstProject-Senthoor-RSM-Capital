@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Linkedin, Heart, Star, Zap, MessageCircle } from 'lucide-react';
 
 export const Footer = () => {
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
+
+
+  useEffect(() => {
+    // Fetch Home page data from WordPress
+    fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+      .then((res) => res.json())
+      .then((data) => setHomeData(data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const socialLinks = [
-    { icon: Linkedin, href: "#", color: "hover:bg-blue-700", name: "LinkedIn" },
-    { icon: MessageCircle, href: "https://wa.me/918056312849", color: "hover:bg-green-600", name: "WhatsApp" },
+    { icon: Linkedin, href:[homeData?.acf?.linkdin], color: "hover:bg-blue-700", name: "LinkedIn" },
+    { icon: MessageCircle, href: [homeData?.acf?.whatsapp], color: "hover:bg-green-600", name: "WhatsApp" },
   ];
 
   const quickLinks = [
@@ -19,9 +29,20 @@ export const Footer = () => {
   ];
 
   const contactDetails = [
-    { icon: Phone, label: "Call Us", value: "+91 8056312849 / +91 8838766508 / +91 8838768756", color: "text-green-400" },
-    { icon: Mail, label: "Email Us", value: "info@goldfinance.com", color: "text-blue-400" },
-    { icon: MapPin, label: "Visit Us", value: "Plot No:2 Jain Shanthi Villa, Tamil Nadu 627005", color: "text-purple-400" }
+    { icon: Phone, label: "Call Us", 
+      value: [
+        `+91 ${homeData?.acf?.phone1 || "9788752611"}`,
+        `+91 ${homeData?.acf?.phone2 || "8838766508"}`,
+        `+91 ${homeData?.acf?.phone3 || "8838768756"}`,
+      ], 
+      color: "text-green-400"
+    },
+    { icon: Mail, label: "Email Us", value:
+      [homeData?.acf?.email || "info@goldfinance.com",
+       homeData?.acf?.email_2 || "support@goldfinance.com"
+
+    ] , color: "text-blue-400" },
+    { icon: MapPin, label: "Visit Us", value: [homeData?.acf?.address ||"Plot No:2 Jain Shanthi Villa, Tamil Nadu 627005"], color: "text-purple-400" }
   ];
 
   return (
@@ -48,11 +69,11 @@ export const Footer = () => {
               </div>
             </div>
             
-            <p className="text-gray-300 mb-4 sm:mb-6 max-w-md leading-relaxed text-sm sm:text-base">
-              With over <span className="text-white font-semibold">12 years of experience</span>, we provide 
+            <p className="text-gray-300 mb-4 sm:mb-6 max-w-md leading-relaxed text-sm sm:text-base" dangerouslySetInnerHTML={{ __html: homeData?.acf?.logo_para || "" }}>
+              {/* With over <span className="text-white font-semibold">12 years of experience</span>, we provide 
               <span className="text-amber-300 font-semibold"> secure gold financing solutions</span> and 
               <span className="text-blue-300 font-semibold"> accurate property valuations</span>, combining 
-              traditional expertise with modern technology.
+              traditional expertise with modern technology. */}
             </p>
             
             <div className="flex space-x-3 sm:space-x-4">
@@ -102,9 +123,15 @@ export const Footer = () => {
                   </div>
                   <div>
                     <p className="text-gray-400 text-xs sm:text-sm">{contact.label}</p>
-                    <p className="text-white font-medium transition-colors text-sm sm:text-base">
-                      {contact.value}
-                    </p>
+                    <div className="text-white font-medium transition-colors text-sm sm:text-base">
+                      {Array.isArray(contact.value) ? (
+                        contact.value.map((val: string, i: number) => (
+                          <p key={i}>{val}</p>
+                        ))
+                      ) : (
+                        <p>{contact.value}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
