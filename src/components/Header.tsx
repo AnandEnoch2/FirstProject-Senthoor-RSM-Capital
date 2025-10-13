@@ -6,6 +6,17 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
+
+
+
+   useEffect(() => {
+      // Fetch Home page data from WordPress
+      fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+        .then(res => res.json())
+        .then(data => setHomeData(data))
+        .catch(err => console.log(err));
+    }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,12 +27,12 @@ export const Header = () => {
   }, []);
 
   const navigationItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/services', label: 'Services' },
-    { path: '/gold-finance', label: 'Gold Finance' },
-    { path: '/property-valuation', label: 'Property Valuation' },
-    { path: '/contact', label: 'Contact' }
+    { path: '/', label: homeData?.acf?.menu1 || 'Home' },
+    { path: '/about', label: homeData?.acf?.menu2 || 'About' },
+    { path: '/services', label: homeData?.acf?.menu3 || 'Services' },
+    { path: '/gold-finance', label: homeData?.acf?.menu4 || 'Gold Finance' },
+    { path: '/property-valuation', label: homeData?.acf?.menu5 || 'Property Valuation' },
+    { path: '/contact', label: homeData?.acf?.menu6 || '  ' }
   ];
 
   const isActivePath = (path: string) => {
@@ -36,7 +47,7 @@ export const Header = () => {
             <div className="relative">
               <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 transform group-hover:scale-110 transition-all duration-300">
                 <img 
-                  src="/logo.png" 
+                  src={homeData?.acf?.logo || "/logo.png"} 
                   alt="Senthoor RSM Capital Logo" 
                   className="w-full h-full object-cover"
                 />

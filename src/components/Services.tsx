@@ -6,6 +6,16 @@ export const Services = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
+
+
+  useEffect(() => {
+    // Fetch Home page data from WordPress
+    fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+      .then(res => res.json())
+      .then(data => setHomeData(data))
+      .catch(err => console.log(err));
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,8 +43,8 @@ export const Services = () => {
   const services = [
     {
       id: 'gold-finance',
-      title: 'Gold Finance Solutions',
-      description: 'Get instant loans against your gold jewelry with competitive interest rates, flexible repayment options, and minimal documentation.',
+      title: homeData?.acf?.sub_title1 || 'Gold Finance Solutions',
+      description: homeData?.acf?.sub_title1_para || '',
       icon: Coins,
       gradient: 'from-yellow-400 via-orange-500 to-red-500',
       bgGradient: 'from-yellow-50 via-orange-50 to-red-50',
@@ -49,8 +59,8 @@ export const Services = () => {
     },
     {
       id: 'property-valuation',
-      title: 'Property Valuation Services',
-      description: 'Professional property assessments for residential, commercial, and industrial properties with certified appraisal reports.',
+      title: homeData?.acf?.sub_title2 || 'Property Valuation Services',
+      description: homeData?.acf?.sub_title2_para || '',
       icon: Home,
       gradient: 'from-blue-500 via-purple-500 to-pink-500',
       bgGradient: 'from-blue-50 via-purple-50 to-pink-50',
@@ -188,7 +198,7 @@ export const Services = () => {
               href="tel:+918056312849"
               className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base lg:text-lg hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 inline-block"
             >
-              <span className="hidden sm:inline">Call +91 8056312849 - Free Consultation</span>
+              <span className="hidden sm:inline">Call +91 {homeData?.acf?.phone} - Free Consultation</span>
               <span className="sm:hidden">Free Consultation</span>
             </a>
           </div>

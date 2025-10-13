@@ -7,12 +7,120 @@ export const GoldFinance = () => {
   const [goldPurity, setGoldPurity] = useState('22k');
   const [isVisible, setIsVisible] = useState(false);
   const [activeScheme, setActiveScheme] = useState(0);
-  const [activeBankIndex, setActiveBankIndex] = useState(0);
 
   // EMI Calculator states
   const [emiLoanAmount, setEmiLoanAmount] = useState(100000);
   const [interestRate, setInterestRate] = useState(12);
   const [tenure, setTenure] = useState(12);
+  const [bankGoldLoanRates, setBankGoldLoanRates] = useState<any[]>([]);
+  const [activeBankIndex, setActiveBankIndex] = useState<number | null>(null);
+  const [goldLoanFeesIndia, setGoldLoanFeesIndia] = useState<any[]>([]);
+  const [goldLoanFeesSouthIndia, setGoldLoanFeesSouthIndia] = useState<any[]>([]);
+  const [gokulamSchemes, setGokulamSchemes] = useState([]);    
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
+
+
+
+   useEffect(() => {
+    // Fetch data from WordPress REST API
+    fetch("http://localhost/wordpress/wp-json/wp/v2/gold_loans?orderby=id&order=asc")
+      .then((res) => res.json())
+      .then((data) => {
+        // Map API response to your table structure
+        const formattedData = data.map((item) => ({
+          lender: item.acf.lender_title, // Post title
+          rate: item.acf.interest_rate, // ACF field: Interest Rate
+          amount: item.acf.loan_amount, // ACF field: Loan Amount
+          color: item.acf.color || "from-gray-500 to-gray-700", // optional color field
+          particular: item.acf.particulars, // Assuming 'particular' is the post title
+          charge: item.acf.charges || 'N/A', // Replace 'meta.charge' with actual field if using ACF
+
+        
+        }));
+        setBankGoldLoanRates(formattedData);
+      })
+      .catch((err) => console.error("Error fetching gold loans:", err));
+  }, []);
+
+
+   useEffect(() => {
+    // Fetch Home page data from WordPress
+    fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+      .then(res => res.json())
+      .then(data => setHomeData(data))
+      .catch(err => console.log(err));
+  }, []);
+
+
+
+  useEffect(() => {
+  fetch("http://localhost/wordpress/wp-json/wp/v2/all_over_india?orderby=id&order=asc")
+    .then((res) => {
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
+    })
+    .then((data) => {
+      const formattedData = data.map((item) => ({
+        particular: item.title.rendered,           // Post title
+        charge: item.acf?.charges || "N/A",        // ACF field
+        region: item.acf?.region
+
+
+        
+      }));
+      setGoldLoanFeesIndia(formattedData);  // Make sure this is the correct state
+    })
+    .catch((err) => console.error("Error fetching gold loans:", err));
+}, []);
+
+ useEffect(() => {
+  fetch("http://localhost/wordpress/wp-json/wp/v2/south_india?orderby=id&order=asc")
+    .then((res) => {
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
+    })
+    .then((data) => {
+      const formattedData = data.map((item) => ({
+        particular: item.acf?.particulars,           // Post title
+        charge: item.acf?.charges || "N/A",        // ACF field
+        region: item.acf?.region
+
+
+        
+      }));
+      setGoldLoanFeesSouthIndia(formattedData);  // Make sure this is the correct state
+    })
+    .catch((err) => console.error("Error fetching gold loans:", err));
+}, []);
+
+useEffect(() => {
+  fetch("http://localhost/wordpress/wp-json/wp/v2/fees_charges?orderby=id&order=asc")
+    .then((res) => {
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
+    })
+    .then((data) => {
+      const formattedData = data.map((item) => ({
+        scheme: item.acf?.scheme_loan,                                 // Scheme name
+        tenure: [
+          item.acf?.tenure_1,
+          item.acf?.tenure_2,
+          item.acf?.tenure_3
+        ].filter(Boolean),                                              // Only include non-empty tenures
+        slab: [
+          item.acf?.slab_1,
+          item.acf?.slab_2,
+          item.acf?.slab_3
+        ].filter(Boolean),                                              // Only include non-empty slabs
+        annualizedRate: item.acf?.annualized_rate || "N/A"             // Default if missing
+      }));
+
+      setGokulamSchemes(formattedData);
+    })
+    .catch((err) => console.error("Error fetching Gokulam schemes:", err));
+}, []);
+
+
 
   useEffect(() => {
     setIsVisible(true);
@@ -63,72 +171,72 @@ export const GoldFinance = () => {
     return calculateTotalAmount() - emiLoanAmount;
   };
 
-  const goldLoanFeesAllIndia = [
-    { particular: "Service charges on Fresh loan", charge: "Rs 50 per loan account" },
-    { particular: "Service charges on Fresh loan under MEI scheme", charge: "0.60% of the loan amount" },
-    { particular: "SMS charges", charge: "Rs 5 per quarter at the time of loan closure or renewal" },
-    { particular: "Safe Custody Charges", charge: "Rs 5/per gram per month, payable at the time of loan closure or renewal" },
-    { particular: "Loan @ Home Charges", charge: "Up to Rs 500 for loan offered at home services" }
-  ];
+  // const goldLoanFeesAllIndia = [
+  //   { particular: "Service charges on Fresh loan", charge: "Rs 50 per loan account" },
+  //   { particular: "Service charges on Fresh loan under MEI scheme", charge: "0.60% of the loan amount" },
+  //   { particular: "SMS charges", charge: "Rs 5 per quarter at the time of loan closure or renewal" },
+  //   { particular: "Safe Custody Charges", charge: "Rs 5/per gram per month, payable at the time of loan closure or renewal" },
+  //   { particular: "Loan @ Home Charges", charge: "Up to Rs 500 for loan offered at home services" }
+  // ];
 
-  const goldLoanFeesSouthIndia = [
-    { particular: "Service charges on Fresh loan", charge: "0.15% of the loan amount (Minimum Rs.100; Maximum Rs.1,000)" },
-    { particular: "Notice Charges", charge: "Rs.30/each on first 3 ordinary notice and Rs 100 for 4th notice" },
-    { 
-      particular: "CAC (Credit Appraisal Charges) – If total exposure is above Rs 3 lakhs", 
-      charge: "For loans:\nAbove Rs 3 lakhs to Rs 5 lakhs: Rs 25\nAbove Rs 5 lakhs to Rs 15 lakh: Rs 40\nAbove Rs 15 lakh to Rs 50 lakh: Rs 50\nAbove Rs 50 lakh: Rs 75" 
-    },
-    { particular: "Door to Door collection charges (Follow up for interest or loan recovery)", charge: "Rs.150 per customer for recovery made through customer follow up visit" }
-  ];
+  // const goldLoanFeesSouthIndia = [
+  //   { particular: "Service charges on Fresh loan", charge: "0.15% of the loan amount (Minimum Rs.100; Maximum Rs.1,000)" },
+  //   { particular: "Notice Charges", charge: "Rs.30/each on first 3 ordinary notice and Rs 100 for 4th notice" },
+  //   { 
+  //     particular: "CAC (Credit Appraisal Charges) – If total exposure is above Rs 3 lakhs", 
+  //     charge: "For loans:\nAbove Rs 3 lakhs to Rs 5 lakhs: Rs 25\nAbove Rs 5 lakhs to Rs 15 lakh: Rs 40\nAbove Rs 15 lakh to Rs 50 lakh: Rs 50\nAbove Rs 50 lakh: Rs 75" 
+  //   },
+  //   { particular: "Door to Door collection charges (Follow up for interest or loan recovery)", charge: "Rs.150 per customer for recovery made through customer follow up visit" }
+  // ];
 
-  const bankGoldLoanRates = [
-    { lender: "Manappuram", rate: "15.19% p.a.", amount: "Up to Rs. 1.5 crore", color: "from-blue-600 to-indigo-700" },
-    { lender: "SBI Bank", rate: "7.30% onwards", amount: "Rs. 20,000 to Rs. 50 lakh", color: "from-blue-600 to-indigo-700" },
-    { lender: "Axis Bank", rate: "13% onwards", amount: "Rs. 25,001 to Rs. 25 Lakh", color: "from-blue-600 to-indigo-700" },
-    { lender: "SBI", rate: "7.50% onwards", amount: "Rs. 20,000 to Rs. 50 Lakh", color: "from-blue-600 to-indigo-700" },
-    { lender: "Muthoot Fincorp", rate: "11.99% onwards", amount: "Rs. 1,500 to Unlimited", color: "from-blue-600 to-indigo-700" },
-    { lender: "ICICI Bank", rate: "10% onwards", amount: "Rs. 10,000 to Rs. 1 crore", color: "from-blue-600 to-indigo-700" },
-    { lender: "Canara Bank", rate: "7.65% p.a.", amount: "Rs. 5,000 to Rs. 20 lakh", color: "from-blue-600 to-indigo-700" },
-    { lender: "HDFC Bank", rate: "9.90% onwards", amount: "Rs. 25,000 to Unlimited", color: "from-blue-600 to-indigo-700" }
-  ];
+  // const bankGoldLoanRates = [
+  //   { lender: "Manappuram", rate: "15.19% p.a.", amount: "Up to Rs. 1.5 crore", color: "from-blue-600 to-indigo-700" },
+  //   { lender: "SBI Bank", rate: "7.30% onwards", amount: "Rs. 20,000 to Rs. 50 lakh", color: "from-blue-600 to-indigo-700" },
+  //   { lender: "Axis Bank", rate: "13% onwards", amount: "Rs. 25,001 to Rs. 25 Lakh", color: "from-blue-600 to-indigo-700" },
+  //   { lender: "SBI", rate: "7.50% onwards", amount: "Rs. 20,000 to Rs. 50 Lakh", color: "from-blue-600 to-indigo-700" },
+  //   { lender: "Muthoot Fincorp", rate: "11.99% onwards", amount: "Rs. 1,500 to Unlimited", color: "from-blue-600 to-indigo-700" },
+  //   { lender: "ICICI Bank", rate: "10% onwards", amount: "Rs. 10,000 to Rs. 1 crore", color: "from-blue-600 to-indigo-700" },
+  //   { lender: "Canara Bank", rate: "7.65% p.a.", amount: "Rs. 5,000 to Rs. 20 lakh", color: "from-blue-600 to-indigo-700" },
+  //   { lender: "HDFC Bank", rate: "9.90% onwards", amount: "Rs. 25,000 to Unlimited", color: "from-blue-600 to-indigo-700" }
+  // ];
 
-  const gokulamSchemes = [
-    {
-      scheme: "GL- PR Scheme",
-      tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-      slab: ["12%", "25%", "28%"],
-      annualizedRate: "22.03%",
-      gradient: "from-blue-500 to-indigo-600"
-    },
-    {
-      scheme: "GL – RSM Scheme",
-      tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-      slab: ["18.50", "25.00", "28.00"],
-      annualizedRate: "24.30",
-      gradient: "from-blue-500 to-indigo-600"
-    },
-    {
-      scheme: "GL-RHS",
-      tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-      slab: ["20.50", "27.5", "29.00"],
-      annualizedRate: "26.21",
-      gradient: "from-blue-500 to-indigo-600"
-    },
-    {
-      scheme: "Express Gold Loan",
-      tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-      slab: ["26.00", "27.50", "29.00"],
-      annualizedRate: "29.94",
-      gradient: "from-blue-500 to-indigo-600"
-    },
-    {
-      scheme: "GL – HRSS",
-      tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-      slab: ["26.00", "27.00", "28.00"],
-      annualizedRate: "30.32",
-      gradient: "from-blue-500 to-indigo-600"
-    }
-  ];
+  // const gokulamSchemes = [
+  //   {
+  //     scheme: "GL- PR Scheme",
+  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
+  //     slab: ["12%", "25%", "28%"],
+  //     annualizedRate: "22.03%",
+  //     gradient: "from-blue-500 to-indigo-600"
+  //   },
+  //   {
+  //     scheme: "GL – RSM Scheme",
+  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
+  //     slab: ["18.50", "25.00", "28.00"],
+  //     annualizedRate: "24.30",
+  //     gradient: "from-blue-500 to-indigo-600"
+  //   },
+  //   {
+  //     scheme: "GL-RHS",
+  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
+  //     slab: ["20.50", "27.5", "29.00"],
+  //     annualizedRate: "26.21",
+  //     gradient: "from-blue-500 to-indigo-600"
+  //   },
+  //   {
+  //     scheme: "Express Gold Loan",
+  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
+  //     slab: ["26.00", "27.50", "29.00"],
+  //     annualizedRate: "29.94",
+  //     gradient: "from-blue-500 to-indigo-600"
+  //   },
+  //   {
+  //     scheme: "GL – HRSS",
+  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
+  //     slab: ["26.00", "27.00", "28.00"],
+  //     annualizedRate: "30.32",
+  //     gradient: "from-blue-500 to-indigo-600"
+  //   }
+  // ];
 
   const features = [
     {
@@ -216,7 +324,7 @@ export const GoldFinance = () => {
               <a href="tel:+918056312849" className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-800 transition-all duration-500 transform hover:scale-105 shadow-2xl">
                 <span className="flex items-center space-x-2">
                   <Phone className="w-5 h-5" />
-                  <span>Call +91 8056312849</span>
+                  <span>Call +91 {homeData?.acf?.phone}</span>
                 </span>
               </a>
              
@@ -441,7 +549,7 @@ export const GoldFinance = () => {
                 
                 <a href="tel:+918056312849" className="w-full bg-white border-2 border-blue-600 text-blue-700 py-4 rounded-2xl font-bold text-lg hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
                   <Phone className="w-5 h-5" />
-                  <span>Call +91 8056312849</span>
+                  <span>Call +91 {homeData?.acf?.phone}</span>
                 </a>
               </div>
             </div>
@@ -720,7 +828,7 @@ export const GoldFinance = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {goldLoanFeesAllIndia.map((fee, idx) => (
+                    {goldLoanFeesIndia.map((fee, idx) => (
                       <tr key={idx} className={`${idx % 2 === 0 ? 'bg-blue-50' : 'bg-white'} hover:bg-blue-100 transition-colors`}>
                         <td className="border border-blue-300 px-6 py-4 font-medium text-slate-700">{fee.particular}</td>
                         <td className="border border-blue-300 px-6 py-4 text-slate-700">{fee.charge}</td>
@@ -935,7 +1043,7 @@ export const GoldFinance = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a href="tel:+918056312849" className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2">
                 <Phone className="w-5 h-5" />
-                <span>Call +91 8056312849</span>
+                <span>Call +91 {homeData?.acf?.phone}</span>
               </a>
             
             </div>

@@ -4,7 +4,17 @@ import { Users, Award, Shield, TrendingUp, Target, Heart, Lightbulb, Globe, Star
 export const About = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeValue, setActiveValue] = useState(0);
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
   const [counters, setCounters] = useState({ years: 0, clients: 0, loans: 0, properties: 0 });
+
+
+   useEffect(() => {
+      // Fetch Home page data from WordPress
+      fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+        .then(res => res.json())
+        .then(data => setHomeData(data))
+        .catch(err => console.log(err));
+    }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -126,26 +136,27 @@ export const About = () => {
               <span>About Our Company</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-4 sm:mb-6 px-4 lg:px-0">
+            {/* <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-4 sm:mb-6 px-4 lg:px-0">
               Tamil Nadu's Premier Gold Finance &
               <span className="block">Property Valuation Experts Since 2013</span>
-            </h2>
+            </h2> */}
             
-            <p className="text-base sm:text-lg lg:text-xl text-slate-700 mb-6 sm:mb-8 leading-relaxed px-4 lg:px-0">
-              Established in <span className="text-blue-700 font-bold">2013</span>, we are Tamil Nadu's leading 
+            <p className=" text-blue-700 text-base sm:text-lg lg:text-xl  mb-6 sm:mb-8 leading-relaxed px-4 lg:px-0">
+              <p className="text-blue-700 font-bold"  dangerouslySetInnerHTML={{ __html: homeData?.acf?.about_para }}></p>
+              {/* Established in <span className="text-blue-700 font-bold">2013</span>, we are Tamil Nadu's leading 
               <span className="text-blue-700 font-bold"> gold finance and property valuation company</span> with over 
               <span className="text-amber-600 font-bold"> 12 years of proven expertise</span>. We have successfully served 
-              <span className="text-blue-700 font-bold"> 10,000+ satisfied customers</span> across Tamil Nadu, Kerala, and beyond.
+              <span className="text-blue-700 font-bold"> 10,000+ satisfied customers</span> across Tamil Nadu, Kerala, and beyond. */}
             </p>
             
-            <p className="text-sm sm:text-base lg:text-lg text-slate-600 mb-6 sm:mb-8 leading-relaxed px-4 lg:px-0">
+            {/* <p className="text-sm sm:text-base lg:text-lg text-slate-600 mb-6 sm:mb-8 leading-relaxed px-4 lg:px-0">
               As a <span className="text-blue-700 font-bold">government-certified valuation company</span> operating since 2013, 
               we provide <span className="text-amber-600 font-semibold">instant gold loans</span> and 
               <span className="text-blue-700 font-semibold"> bank-approved property valuations</span> across Tamil Nadu. 
               Our <span className="text-blue-700 font-semibold">certified professionals</span> serve clients in Madurai, 
               Chennai, Coimbatore, Tirunelveli, and throughout South India with <span className="text-black font-semibold">transparent pricing</span> 
               and <span className="text-amber-600 font-semibold"> same-day service</span>.
-            </p>
+            </p> */}
 
             {/* Animated Stats */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6 px-4 lg:px-0">
@@ -168,7 +179,7 @@ export const About = () => {
           }`}>
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/3184431/pexels-photo-3184431.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+                src= "https://images.pexels.com/photos/3184431/pexels-photo-3184431.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
                 alt="Team at work"
                 className="rounded-2xl sm:rounded-3xl shadow-2xl w-full transform hover:scale-105 transition-transform duration-500 mx-4 lg:mx-0"
               />
@@ -248,25 +259,11 @@ export const About = () => {
           </div>
           
           <div className="max-w-4xl mx-auto space-y-6 text-center">
-            <p className="text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed">
-              For over <span className="text-blue-700 font-bold">12 years</span>, the Senthoor RSM Capital name has been respected for its 
-              <span className="text-blue-700 font-bold"> strong values</span>, <span className="text-amber-600 font-bold"> integrity</span>, 
-              and <span className="text-blue-700 font-bold"> commitment to society</span>. Guided by the belief in giving back to the community, 
-              the Group continues to create businesses that grow through <span className="text-black font-bold">excellence and innovation</span>, 
-              while upholding the interests of customers, employees, and society at large.
+            <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed">
+              <p  dangerouslySetInnerHTML={{ __html: homeData?.acf?.gokulam_legacy }}></p>
             </p>
             
-            <p className="text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed">
-              Over the years, the Senthoor RSM Capital brand has come to represent more than just financial strength. It stands for 
-              <span className="text-blue-700 font-bold"> Trust</span>, <span className="text-amber-600 font-bold"> Quality</span>, 
-              <span className="text-blue-700 font-bold"> Ethical Leadership</span>, and <span className="text-amber-600 font-bold">  Respect </span> 
-              for every customer we serve.
-            </p>
             
-            <p className="text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed">
-              Anchored in values and driven by vision, <span className="text-blue-700 font-bold">Senthoor RSM Capital Group</span> is building a future 
-              where <span className="text-amber-600 font-bold">growth and responsibility</span> go hand in hand.
-            </p>
           </div>
         </div>
 
@@ -287,11 +284,10 @@ export const About = () => {
               <h4 className="text-xl sm:text-2xl font-bold text-blue-800 mb-4 text-center">
                 Fairness & Customer Care
               </h4>
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed text-center">
-                At Senthoor RSM Capital Finance, our customers come first. By eliminating hidden charges, introducing clear and simple loan agreements, 
-                and practicing complete transparency, we have built a culture of fairness and trust. We continue to listen, learn, 
-                and design solutions that help customers make informed and confident financial decisions.
+              <p dangerouslySetInnerHTML={{ __html: homeData?.acf?.fairness_customer }}>
+               
               </p>
+              
             </div>
 
             {/* Supporting Small & Medium Businesses */}
@@ -299,10 +295,8 @@ export const About = () => {
               <h4 className="text-xl sm:text-2xl font-bold text-amber-700 mb-4 text-center">
                 Supporting Small & Medium Businesses
               </h4>
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed text-center">
-                Small and medium enterprises are the growth engine of India's economy. We are proud to support them with dedicated 
-                lending solutions, including loan overdraft schemes and online payment facilities. Our commitment is to empower 
-                entrepreneurs with the resources they need to expand, innovate, and succeed.
+              <p dangerouslySetInnerHTML={{ __html: homeData?.acf?.small_medium }}>
+               
               </p>
             </div>
 
@@ -311,11 +305,8 @@ export const About = () => {
               <h4 className="text-xl sm:text-2xl font-bold text-blue-800 mb-4 text-center">
                 Affordable Housing Finance
               </h4>
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed text-center">
-                Buying a home is one of life's most important milestones. At Senthoor RSM Capital Finance, we make this dream accessible 
-                through affordable mortgage products, transparent processes, and personalized guidance. Our loan specialists work 
-                closely with customers—whether first-time buyers, modest-income families, or seasoned investors—to find the right 
-                option with competitive rates and flexible terms.
+              <p dangerouslySetInnerHTML={{ __html: homeData?.acf?.housing_finance }}>
+                
               </p>
             </div>
 
@@ -324,17 +315,14 @@ export const About = () => {
               <h4 className="text-xl sm:text-2xl font-bold text-amber-700 mb-4 text-center">
                 Commitment to Regulatory Excellence
               </h4>
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed text-center">
-                We strongly support responsible regulatory reforms that protect customer interests and bring greater confidence 
-                to the lending sector. By aligning with the highest ethical standards, we ensure that our business practices 
-                remain fair, transparent, and customer-focused.
+              <p dangerouslySetInnerHTML={{ __html: homeData?.acf?.regulatory_excellence }}>
               </p>
             </div>
 
             {/* Closing Statement */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 sm:p-8 text-white text-center shadow-lg">
               <p className="text-lg sm:text-xl font-bold">
-                💎 At Senthoor RSM Capital Finance, we believe that growth is meaningful only when it is shared—with our customers, communities, and society at large.
+                {homeData?.acf?.our_commit}
               </p>
             </div>
           </div>
@@ -356,8 +344,7 @@ export const About = () => {
               <h4 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-6">
                 Our Vision
               </h4>
-              <p className="text-lg sm:text-xl text-slate-700 leading-relaxed">
-                Be the most admired, conglomerate touching the lives of every global citizen while enriching all stake holders
+              <p dangerouslySetInnerHTML={{ __html: homeData?.acf?.our_vision }}>
               </p>
             </div>
           </div>
@@ -376,22 +363,15 @@ export const About = () => {
           
           <div className="max-w-5xl mx-auto space-y-6">
             <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-amber-200">
-              <p className="text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed text-center mb-6">
-                At Senthoor RSM Capital, our journey has always been guided by three eternal lights — <span className="text-blue-700 font-bold">Credibility</span>, 
-                <span className="text-amber-600 font-bold"> Reliability</span>, and <span className="text-blue-700 font-bold">Trust</span>. 
-                Like the stars aligned in Orion's Belt, shining straight and true in the night sky, we too remain a constant — 
-                a source of clarity and direction for every dream entrusted to us.
+              <p className="text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed text-center mb-6" dangerouslySetInnerHTML={{ __html: homeData?.acf?.path_success }}>
+                
               </p>
               
-              <p className="text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed text-center mb-6">
-                The flame of progress within us never fades. It is fueled by the ever-changing hopes of people, inspiring us to adapt, 
-                evolve, and move forward with purpose. For us, success is not just measured in milestones, but in the smiles we create, 
-                the trust we nurture, and the lives we touch along the way.
-              </p>
+              
               
               <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-4 sm:p-6 text-white text-center shadow-lg">
                 <p className="text-lg sm:text-xl font-bold">
-                  💫 Senthoor RSM Capital — where trust becomes tradition, and tradition leads to tomorrow.
+                  {homeData?.acf?.path_success2}
                 </p>
               </div>
             </div>

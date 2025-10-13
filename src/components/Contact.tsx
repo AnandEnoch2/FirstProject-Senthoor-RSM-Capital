@@ -12,6 +12,16 @@ export const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [activeContact, setActiveContact] = useState(0);
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
+
+
+  useEffect(() => {
+      // Fetch Home page data from WordPress
+      fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+        .then(res => res.json())
+        .then(data => setHomeData(data))
+        .catch(err => console.log(err));
+    }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,38 +63,42 @@ export const Contact = () => {
     {
       icon: Phone,
       title: "Phone",
-      details: ["+91 8056312849", "+91 8838766508", "+91 8838768756"],
+      details: [
+           homeData?.acf?.phone1 ? `+91 ${homeData?.acf?.phone1}` : "+91 9788752611",
+           homeData?.acf?.phone2 ? `+91 ${homeData?.acf?.phone2}` : "+91 8838766508",
+           homeData?.acf?.phone3 ? `+91 ${homeData?.acf?.phone3}` : "+91 8838768756",
+          ],
       gradient: "from-green-400 to-emerald-500",
       bgGradient: "from-green-50 to-emerald-50"
     },
     {
       icon: Mail,
       title: "Email",
-      details: ["info@goldfinance.com", "support@goldfinance.com"],
+      details: [homeData?.acf?.email || "info@goldfinance.com", "support@goldfinance.com"],
       gradient: "from-blue-400 to-cyan-500",
       bgGradient: "from-blue-50 to-cyan-50"
     },
     {
       icon: MapPin,
       title: "Address",
-      details: ["Plot No:2 Jain Shanthi Villa", "Tamil Nadu 627005"],
+      details: [homeData?.acf?.address || "Plot No:2 Jain Shanthi Villa Tamil Nadu 627005",],
       gradient: "from-purple-400 to-pink-500",
       bgGradient: "from-purple-50 to-pink-50"
     },
     {
       icon: Clock,
       title: "Business Hours",
-      details: ["Monday - Friday: 9:00 AM - 6:00 PM", "Saturday: 9:00 AM - 4:00 PM", "Sunday: Closed"],
+      details: [homeData?.acf?.business_hours || "Monday - Friday: 9:00 AM - 6:00 PM Saturday: 9:00 AM - 4:00 PM Sunday: Closed", ],
       gradient: "from-orange-400 to-red-500",
       bgGradient: "from-orange-50 to-red-50"
     }
   ];
 
   const quickStats = [
-    { icon: CheckCircle, text: "12+ Years of Experience", color: "text-green-500" },
-    { icon: MessageCircle, text: "10,000+ Satisfied Customers", color: "text-blue-500" },
-    { icon: Calendar, text: "Instant Loan Approval", color: "text-purple-500" },
-    { icon: Headphones, text: "24/7 Customer Support", color: "text-orange-500" }
+    { icon: CheckCircle, text: homeData?.acf?.year_of_experience || "12+ Years of Experience", color: "text-green-500" },
+    { icon: MessageCircle, text: homeData?.acf?.customers || "10,000+ Satisfied Customers", color: "text-blue-500" },
+    { icon: Calendar, text: homeData?.acf?.loan_approval || "Instant Loan Approval", color: "text-purple-500" },
+    { icon: Headphones, text: homeData?.acf?.customer_support || "24/7 Customer Support", color: "text-orange-500" }
   ];
 
   return (
@@ -280,7 +294,7 @@ export const Contact = () => {
                   </div>
                  <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-800">Visit Our Office</h4>
                 </div>
-                <p className="text-slate-600 font-medium text-sm sm:text-base px-2 sm:px-0">Senthoor RSM Capital Pvt Ltd., - Plot No:2 Jain Shanthi Villa, Tamil Nadu 627005</p>
+                <p className="text-slate-600 font-medium text-sm sm:text-base px-2 sm:px-0">{homeData?.acf?.address}</p>
               </div>
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.831022354979!2d77.7215749!3d8.707591499999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0413b33aa7aa23%3A0x2df38d0e2baf3240!2sGokulam%20Associates!5e0!3m2!1sen!2sin!4v1756386091351!5m2!1sen!2sin" 
@@ -300,7 +314,7 @@ export const Contact = () => {
         {/* WhatsApp Integration */}
         <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
           <a
-            href="https://wa.me/918056312849"
+            href={homeData?.acf?.whatsapp }
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 animate-bounce"
