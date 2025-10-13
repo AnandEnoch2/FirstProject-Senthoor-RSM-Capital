@@ -7,6 +7,16 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const [homeData, setHomeData] = useState<any>(null); // store WP data
+  const [contactData, setContactData] = useState<any>(null); // store WP data
+  
+  
+    useEffect(() => {
+        // Fetch Home page data from WordPress
+        fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+          .then(res => res.json())
+          .then(data => setContactData(data))
+          .catch(err => console.log(err));
+      }, []);
 
 
 
@@ -88,14 +98,14 @@ export const Header = () => {
           <div className="hidden xl:flex items-center space-x-4 2xl:space-x-8">
             <a href="tel:+918056312849" className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl text-white text-sm font-semibold transform hover:scale-105 transition-all duration-300">
               <Phone className="w-3.5 h-3.5" />
-              <span>+91 8056312849</span>
+              <span>+91 {homeData?.acf?.phone}</span>
             </a>
             <div className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl text-white text-sm font-semibold transform hover:scale-105 transition-all duration-300">
               <Mail className="w-3.5 h-3.5" />
-              <span>info@goldfinance.com</span>
+              <span>{contactData?.acf?.email}</span>
             </div>
           </div>
-
+ 
           <button
             className="lg:hidden p-2 sm:p-3 rounded-xl transition-all duration-300 text-blue-700 hover:bg-blue-50"
             onClick={() => setIsMenuOpen(!isMenuOpen)}

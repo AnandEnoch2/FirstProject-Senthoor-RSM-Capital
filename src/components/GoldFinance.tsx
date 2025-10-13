@@ -18,6 +18,17 @@ export const GoldFinance = () => {
   const [goldLoanFeesSouthIndia, setGoldLoanFeesSouthIndia] = useState<any[]>([]);
   const [gokulamSchemes, setGokulamSchemes] = useState([]);    
   const [homeData, setHomeData] = useState<any>(null); // store WP data
+  const [contactData, setContactData] = useState<any>(null); // store WP data
+    
+    
+      useEffect(() => {
+          // Fetch Home page data from WordPress
+          fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+            .then(res => res.json())
+            .then(data => setContactData(data))
+            .catch(err => console.log(err));
+        }, []);
+  
 
 
 
@@ -1073,7 +1084,7 @@ useEffect(() => {
       {/* WhatsApp Float Button */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
         <a
-          href="https://wa.me/918056312849"
+          href={contactData?.acf?.whatsapp }
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 animate-bounce"
