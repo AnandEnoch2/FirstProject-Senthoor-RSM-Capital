@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, MapPin, Ruler, TrendingUp, FileText, Award, Calculator, CheckCircle, Building, Factory, Zap, Star, Users, Shield, Globe, Target, Briefcase, BookOpen, Wrench, PieChart, BarChart3, Clock, Phone, Mail, Landmark, CaseSensitive as University, Banknote, CreditCard, Wallet, DollarSign, PiggyBank } from 'lucide-react';
+import { Home, MapPin, Ruler, TrendingUp, FileText, Award, Calculator, CheckCircle, Building, Factory, Zap, Star, Users, Shield, Globe, Target, Briefcase, BookOpen, Wrench, PieChart, BarChart3, Clock, Phone, Mail, Landmark, CaseSensitive as University, Banknote, CreditCard, Wallet, DollarSign, PiggyBank, Calendar } from 'lucide-react';
 
 export const PropertyValuationPage = () => {
   const [propertyType, setPropertyType] = useState('residential');
@@ -8,6 +8,28 @@ export const PropertyValuationPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeCategory, setActiveCategory] = useState(0);
   const [activeService, setActiveService] = useState(0);
+  const [homeData, setHomeData] = useState<any>(null); // store WP data
+  const [contactData, setContactData] = useState<any>(null); // store WP data
+  
+  
+    useEffect(() => {
+        // Fetch Home page data from WordPress
+        fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+          .then(res => res.json())
+          .then(data => setContactData(data))
+          .catch(err => console.log(err));
+      }, []);
+
+  
+  
+  
+     useEffect(() => {
+        // Fetch Home page data from WordPress
+        fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+          .then(res => res.json())
+          .then(data => setHomeData(data))
+          .catch(err => console.log(err));
+      }, []);
 
   useEffect(() => {
     setIsVisible(true);
@@ -160,11 +182,36 @@ export const PropertyValuationPage = () => {
   ];
 
   const certifications = [
-    { name: "Registered Valuer Since 2013", id: "F-24800", icon: Award },
-    { name: "IOV Registered Valuer Foundation", id: "IOVRVF/M/L&B/354", icon: Shield },
-    { name: "American Society of Civil Engineers", id: "9372611", icon: Globe },
-    { name: "Quality Council of India", id: "FM-6057/2018-2019", icon: CheckCircle },
-    { name: "Indian Green Building Council", id: "IGBC-IM-01250655", icon: Star }
+    { 
+      name: "Registered Valuer Since 2013", 
+      id: "F-24800", 
+      icon: Award,
+      description: "Government certified registered valuer with over 12 years of professional experience in property valuation across multiple asset classes."
+    },
+    { 
+      name: "IOV Registered Valuer Foundation", 
+      id: "IOVRVF/M/L&B/354", 
+      icon: Shield,
+      description: "Certified by the Institute of Valuers for Land & Building valuation, ensuring adherence to international valuation standards."
+    },
+    { 
+      name: "American Society of Civil Engineers", 
+      id: "9372611", 
+      icon: Globe,
+      description: "International membership demonstrating commitment to global engineering excellence and best practices in structural assessment."
+    },
+    { 
+      name: "Quality Council of India", 
+      id: "FM-6057/2018-2019", 
+      icon: CheckCircle,
+      description: "Quality management certification ensuring consistent delivery of high-standard valuation services and client satisfaction."
+    },
+    { 
+      name: "Indian Green Building Council", 
+      id: "IGBC-IM-01250655", 
+      icon: Star,
+      description: "Specialized certification in green building assessment and sustainable property valuation methodologies."
+    }
   ];
 
   const projectServices = [
@@ -206,7 +253,7 @@ export const PropertyValuationPage = () => {
               <a href="tel:+918056312849" className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-800 transition-all duration-500 transform hover:scale-105 shadow-lg">
                 <span className="flex items-center space-x-2">
                   <Phone className="w-5 h-5" />
-                  <span>Call +91 8056312849</span>
+                  <span>Call +91 {homeData?.acf?.phone}</span>
                 </span>
               </a>
             </div>
@@ -371,24 +418,78 @@ export const PropertyValuationPage = () => {
           <div className={`bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 shadow-2xl border border-blue-500 transform transition-all duration-1000 delay-700 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
           }`}>
-            <h3 className="text-3xl sm:text-4xl font-bold text-center text-blue-800 mb-12">
-              Certifications & Professional Credentials
-            </h3>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl mb-6 shadow-lg">
+                <Award className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="text-3xl sm:text-4xl font-bold text-blue-800 mb-4">
+                Certifications & Professional Credentials
+              </h3>
+              <p className="text-lg text-slate-700 max-w-3xl mx-auto">
+                Our expertise is backed by prestigious certifications and professional memberships from leading industry bodies
+              </p>
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {certifications.map((cert, idx) => (
-                <div key={idx} className="text-center group p-6 rounded-2xl hover:bg-white transition-all duration-300">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
-                    <cert.icon className="w-8 h-8 text-white" />
+                <div key={idx} className="relative text-center group p-8 rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-blue-200 hover:border-blue-400 overflow-hidden">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 opacity-5">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700"></div>
+                    <div className="absolute inset-0" style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                    }}></div>
                   </div>
-                  <h4 className="font-bold text-blue-800 mb-2 transition-colors">
-                    {cert.name}
-                  </h4>
-                  <p className="text-sm text-slate-600 font-mono bg-white border border-blue-200 px-3 py-1 rounded-lg">
-                    {cert.id}
-                  </p>
+                  
+                  <div className="relative z-10">
+                    <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                      <cert.icon className="w-10 h-10 text-white" />
+                    </div>
+                    
+                    <div className="mb-4">
+                      <h4 className="font-bold text-xl text-blue-800 mb-3 group-hover:text-blue-900 transition-colors">
+                        {cert.name}
+                      </h4>
+                      <div className="bg-gradient-to-r from-blue-100 to-indigo-100 border-2 border-blue-300 px-4 py-2 rounded-xl shadow-inner">
+                        <p className="text-sm font-mono text-blue-800 font-bold">
+                          ID: {cert.id}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {cert.description}
+                    </p>
+                  </div>
                 </div>
               ))}
+            </div>
+            
+            {/* Bottom Statistics */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                <div className="group">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <Calendar className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-2xl font-bold text-blue-800 mb-1">12+</div>
+                  <div className="text-sm text-slate-600">Years Certified</div>
+                </div>
+                <div className="group">
+                  <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <Building className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-2xl font-bold text-amber-700 mb-1">5</div>
+                  <div className="text-sm text-slate-600">Professional Bodies</div>
+                </div>
+                <div className="group">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <CheckCircle className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-2xl font-bold text-green-700 mb-1">100%</div>
+                  <div className="text-sm text-slate-600">Compliance Rate</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -526,6 +627,71 @@ export const PropertyValuationPage = () => {
 
       {/* Call to Action */}
       <section className="py-16 bg-white relative">
+        {/* Locations Covered Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+          <div className={`bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 shadow-lg border border-blue-500 transform transition-all duration-1000 delay-800 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+          }`}>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl mb-6 shadow-lg">
+                <MapPin className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="text-3xl sm:text-4xl font-bold text-blue-800 mb-4">
+                Locations Covered (Tamil Nadu)
+              </h3>
+              <p className="text-lg text-slate-700 max-w-3xl mx-auto">
+                Our valuation network extends across all major districts in Tamil Nadu
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+              {[
+                "Chennai", "Tiruvallur", "Kanchipuram", "Chengalpattu", "Ranipet",
+                "Vellore", "Thiruvannamalai", "Trichy", "Thanjavur", "Pattukottai",
+                "Pudhukottai", "Madurai", "Virudhunagar/Sivakasi", "Coimbatore", "Erode",
+                "Tiruppur", "Salem", "Dharmapuri", "Theni", "Dindugal",
+                "Tuticorin", "Tenkasi", "Tirunelveli", "Nagaercoil", "Kombakonam & Jeyakondam area",
+                "Ariyalur", "Perambalur", "Ramanathapuram", "Sivaganga", "Karur", "Kallkurichi"
+              ].map((location, idx) => (
+                <div key={idx} className="bg-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-blue-200 hover:border-blue-400 text-center group">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <MapPin className="w-4 h-4 text-white" />
+                  </div>
+                  <p className="text-sm font-semibold text-blue-800 group-hover:text-blue-900 transition-colors">
+                    {location}
+                  </p>
+                </div>
+              ))}
+            </div>
+            
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200 text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div className="group">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <MapPin className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-2xl font-bold text-blue-800 mb-1">31+</div>
+                  <div className="text-sm text-slate-600">Districts Covered</div>
+                </div>
+                <div className="group">
+                  <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <Building className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-2xl font-bold text-amber-700 mb-1">100%</div>
+                  <div className="text-sm text-slate-600">Tamil Nadu Coverage</div>
+                </div>
+                <div className="group">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <CheckCircle className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-2xl font-bold text-green-700 mb-1">24-48hrs</div>
+                  <div className="text-sm text-slate-600">Service Delivery</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-lg text-center transform transition-all duration-1000 delay-1000 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
@@ -541,7 +707,7 @@ export const PropertyValuationPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a href="tel:+918056312849" className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2">
                 <Phone className="w-5 h-5" />
-                <span>Call +91 8056312849</span>
+                <span>Call +91 {homeData?.acf?.phone}</span>
               </a>
             </div>
 
@@ -571,7 +737,7 @@ export const PropertyValuationPage = () => {
       {/* WhatsApp Float Button */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
         <a
-          href="https://wa.me/918056312849"
+          href={contactData?.acf?.whatsapp }
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 animate-bounce"

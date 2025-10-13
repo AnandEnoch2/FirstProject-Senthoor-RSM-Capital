@@ -7,6 +7,7 @@ export const PropertyValuation = () => {
   const [location, setLocation] = useState('prime');
   const [isVisible, setIsVisible] = useState(false);
   const [activeCategory, setActiveCategory] = useState(0);
+  
 
   useEffect(() => {
     const observer = new IntersectionObserver(
