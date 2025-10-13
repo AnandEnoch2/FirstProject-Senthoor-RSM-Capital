@@ -31,6 +31,7 @@ export const PropertyValuationPage = () => {
           .catch(err => console.log(err));
       }, []);
 
+
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -126,7 +127,7 @@ export const PropertyValuationPage = () => {
   ];
 
   const clientTypes = [
-    { type: "Banks", icon: Building, count: "15+", color: "from-blue-500 to-cyan-500" },
+    { type: "Banks", icon: Building, count: "10+", color: "from-blue-500 to-cyan-500" },
     { type: "NBFCs", icon: Briefcase, count: "25+", color: "from-green-500 to-emerald-500" },
     { type: "ARCs", icon: Shield, count: "10+", color: "from-purple-500 to-pink-500" },
     { type: "Developers", icon: Home, count: "50+", color: "from-yellow-500 to-orange-500" },
@@ -188,30 +189,30 @@ export const PropertyValuationPage = () => {
       icon: Award,
       description: "Government certified registered valuer with over 12 years of professional experience in property valuation across multiple asset classes."
     },
+     { 
+      name: "Quality Council of India", 
+      id: "FM-6057/2018-2019", 
+      icon: CheckCircle,
+      description: "Quality management certification ensuring consistent delivery of high-standard valuation services and client satisfaction."
+    },
+   { 
+      name: "Indian Green Building Council", 
+      id: "IGBC-IM-01250655", 
+      icon: Star,
+      description: "Specialized certification in green building assessment and sustainable property valuation methodologies."
+    },
     { 
       name: "IOV Registered Valuer Foundation", 
       id: "IOVRVF/M/L&B/354", 
       icon: Shield,
       description: "Certified by the Institute of Valuers for Land & Building valuation, ensuring adherence to international valuation standards."
     },
-    { 
+      { 
       name: "American Society of Civil Engineers", 
       id: "9372611", 
       icon: Globe,
       description: "International membership demonstrating commitment to global engineering excellence and best practices in structural assessment."
     },
-    { 
-      name: "Quality Council of India", 
-      id: "FM-6057/2018-2019", 
-      icon: CheckCircle,
-      description: "Quality management certification ensuring consistent delivery of high-standard valuation services and client satisfaction."
-    },
-    { 
-      name: "Indian Green Building Council", 
-      id: "IGBC-IM-01250655", 
-      icon: Star,
-      description: "Specialized certification in green building assessment and sustainable property valuation methodologies."
-    }
   ];
 
   const projectServices = [
@@ -430,9 +431,11 @@ export const PropertyValuationPage = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {certifications.map((cert, idx) => (
-                <div key={idx} className="relative text-center group p-8 rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-blue-200 hover:border-blue-400 overflow-hidden">
+            <div className="mb-12">
+              {/* First row - 3 items */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                {certifications.slice(0, 3).map((cert, idx) => (
+                  <div key={idx} className="relative text-center group p-8 rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-blue-200 hover:border-blue-400 overflow-hidden">
                   {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-5">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700"></div>
@@ -463,6 +466,45 @@ export const PropertyValuationPage = () => {
                   </div>
                 </div>
               ))}
+              </div>
+
+              {/* Second row - 2 items centered */}
+              <div className="flex justify-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full">
+                  {certifications.slice(3, 5).map((cert, idx) => (
+                    <div key={idx + 3} className="relative text-center group p-8 rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-blue-200 hover:border-blue-400 overflow-hidden">
+                      {/* Background Pattern */}
+                      <div className="absolute inset-0 opacity-5">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700"></div>
+                        <div className="absolute inset-0" style={{
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                        }}></div>
+                      </div>
+
+                      <div className="relative z-10">
+                        <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                          <cert.icon className="w-10 h-10 text-white" />
+                        </div>
+
+                        <div className="mb-4">
+                          <h4 className="font-bold text-xl text-blue-800 mb-3 group-hover:text-blue-900 transition-colors">
+                            {cert.name}
+                          </h4>
+                          <div className="bg-gradient-to-r from-blue-100 to-indigo-100 border-2 border-blue-300 px-4 py-2 rounded-xl shadow-inner">
+                            <p className="text-sm font-mono text-blue-800 font-bold">
+                              ID: {cert.id}
+                            </p>
+                          </div>
+                        </div>
+
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          {cert.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
             
             {/* Bottom Statistics */}
@@ -546,6 +588,77 @@ export const PropertyValuationPage = () => {
         </div>
       </section>
 
+      {/* Our Partners Section */}
+      <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className={`text-center mb-16 transform transition-all duration-1000 delay-850 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+          }`}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent mb-6">
+              Our Banking & Financial Partners
+            </h2>
+            <p className="text-lg text-slate-700 max-w-3xl mx-auto">
+              Trusted by leading banks and financial institutions across India
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {[
+              { name: "HDB Financial Services", logo: "/hdb.jpeg" },
+              { name: "Tamil Nadu Grama Bank", logo: "/Tngb.webp" },
+              { name: "Suryoday Small Finance Bank", logo: "/suryo.jpeg" },
+              { name: "Repco Bank", logo: "/repco.png" },
+              { name: "L&T Finance", logo: "/lt.webp" },
+              { name: "IndusInd Bank", logo: "/indus.png" },
+              { name: "PNB Housing Finance", logo: "/punjab.jpeg" },
+              { name: "Bandhan Bank", logo: "/bandhan.jpeg" },
+              { name: "Repco Home Finance", logo: "/repcohome.jpeg" },
+              { name: "Vastu Home Finance", logo: "/vastu.jpg" },
+              { name: "Aditya Birla Housing Finance", logo: "/adithya.jpeg" },
+              { name: "Hiranadhini Home Finance", logo: "/hfs.webp" }
+            ].map((partner, idx) => (
+              <div
+                key={idx}
+                className={`bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:scale-105 border border-blue-200 hover:border-blue-400 flex items-center justify-center group ${
+                  isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                }`}
+                style={{ transitionDelay: `${850 + idx * 50}ms` }}
+              >
+                <div className="w-full h-24 flex items-center justify-center">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-w-full max-h-full object-contain transition-all duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200 inline-block">
+              <div className="flex items-center space-x-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-800">10+</div>
+                  <div className="text-sm text-slate-600">Banking Partners</div>
+                </div>
+                <div className="h-12 w-px bg-blue-200"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-amber-700">100%</div>
+                  <div className="text-sm text-slate-600">Approval Rate</div>
+                </div>
+                <div className="h-12 w-px bg-blue-200"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-700">1000+</div>
+                  <div className="text-sm text-slate-600">Valuations Completed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Notable Clients */}
       <section className="py-16 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -560,65 +673,33 @@ export const PropertyValuationPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Corporate Clients */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 shadow-lg border border-blue-500">
-              <h3 className="text-2xl font-bold text-center text-blue-800 mb-8">
-                Corporate & Business Clients
-              </h3>
-              
-              <div className="space-y-6">
-                {[
-                  { city: "Madurai", clients: ["Thangamayil Jewellers", "Vishal Promotors", "Pandiyan Hotel", "Aruna Alloys & Steels", "Asian Health & Nutri Foods Ltd", "Rajmahal", "Vishal De Mall", "Dattatreya Textiles Pvt. Ltd", "Ultra College", "Susee Automobiles Ltd", "Pothys", "Sri Sathya Steel", "Saasify Solutions Pvt. Ltd"] },
-                  { city: "Chennai", clients: ["Robust Health Care", "Rajalakshmi Educational Trust", "KRR Special Gases", "Srikal Automation Pvt. Ltd", "Southern Automation & Electrical Solutions Pvt. Ltd"] },
-                  { city: "Coimbatore", clients: ["Creative Jewellers", "Arem Logistics", "Sri Balaji Spinners"] },
-                  { city: "Other Cities", clients: ["Mayura Textile (Tiruppur)", "Vaishnavi Metals (Ambattur)", "Hotel Le-Median (Kochi)", "Pyrologics Systech International LLP (Thiruvallur)", "Sri Ragavendra Minerals (Kanyakumari)", "Venlub Petro Products Pvt. Ltd (Kozhikode)"] }
-                ].map((cityGroup, idx) => (
-                  <div key={idx} className="border-l-4 border-gray-300 pl-6">
-                    <h4 className="font-bold text-lg text-blue-700 mb-3">{cityGroup.city}</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {cityGroup.clients.map((client, clientIdx) => (
-                        <div key={clientIdx} className="text-sm text-slate-600 py-2 px-3 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors">
-                          {client}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <div className="max-w-4xl w-full">
+              {/* Corporate Clients */}
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 shadow-lg border border-blue-500">
+                <h3 className="text-2xl font-bold text-center text-blue-800 mb-8">
+                  Corporate & Business Clients
+                </h3>
 
-            {/* Banking Partners */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 shadow-lg border border-amber-500">
-              <h3 className="text-2xl font-bold text-center text-amber-700 mb-8">
-                Banking & Financial Partners
-              </h3>
-              
-              <div className="space-y-4">
-                {[
-                  { name: "BSNL – Government of India", icon: Globe, color: "from-blue-500 to-indigo-500" },
-                  { name: "IndusInd Bank – Tamil Nadu, Kerala, Pondicherry", icon: Landmark, color: "from-red-500 to-pink-500" },
-                  { name: "HDB Financial Services", icon: CreditCard, color: "from-orange-500 to-red-500" },
-                  { name: "PNB Housing Finance", icon: Home, color: "from-blue-600 to-purple-600" },
-                  { name: "Bandhan Bank", icon: PiggyBank, color: "from-green-500 to-emerald-500" },
-                  { name: "Repco Bank – Tamil Nadu", icon: Banknote, color: "from-teal-500 to-cyan-500" },
-                  { name: "L&T Home Finance – Tamil Nadu", icon: Building, color: "from-gray-600 to-gray-800" },
-                  { name: "Hiranadhini Home Finance", icon: DollarSign, color: "from-yellow-500 to-orange-500" },
-                  { name: "Vastu Home Finance – Chennai", icon: Wallet, color: "from-purple-500 to-pink-500" },
-                  { name: "Aditya Birla Housing Finance – Tamil Nadu", icon: Landmark, color: "from-indigo-500 to-purple-500" },
-                  { name: "Tamil Nadu Grama Bank", icon: University, color: "from-green-600 to-teal-600" },
-                  { name: "Repco Home Finance – Tirunelveli", icon: Home, color: "from-blue-500 to-cyan-500" },
-                  { name: "Suryoday Small Finance Bank – Tamil Nadu", icon: PiggyBank, color: "from-yellow-600 to-orange-600" }
-                ].map((bank, idx) => (
-                  <div key={idx} className="flex items-center space-x-3 p-3 bg-white border border-amber-200 rounded-xl hover:bg-amber-50 transition-all duration-300 group">
-                    <div className="w-8 h-8 bg-gradient-to-br from-amber-600 to-orange-700 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                      <bank.icon className="w-5 h-5 text-white" />
+                <div className="space-y-6">
+                  {[
+                    { city: "Madurai", clients: ["Thangamayil Jewellers", "Vishal Promotors", "Pandiyan Hotel", "Aruna Alloys & Steels", "Asian Health & Nutri Foods Ltd", "Rajmahal", "Vishal De Mall", "Dattatreya Textiles Pvt. Ltd", "Ultra College", "Susee Automobiles Ltd", "Pothys", "Sri Sathya Steel", "Saasify Solutions Pvt. Ltd"] },
+                    { city: "Chennai", clients: ["Robust Health Care", "Rajalakshmi Educational Trust", "KRR Special Gases", "Srikal Automation Pvt. Ltd", "Southern Automation & Electrical Solutions Pvt. Ltd"] },
+                    { city: "Coimbatore", clients: ["Creative Jewellers", "Arem Logistics", "Sri Balaji Spinners"] },
+                    { city: "Other Cities", clients: ["Mayura Textile (Tiruppur)", "Vaishnavi Metals (Ambattur)", "Hotel Le-Median (Kochi)", "Pyrologics Systech International LLP (Thiruvallur)", "Sri Ragavendra Minerals (Kanyakumari)", "Venlub Petro Products Pvt. Ltd (Kozhikode)"] }
+                  ].map((cityGroup, idx) => (
+                    <div key={idx} className="border-l-4 border-gray-300 pl-6">
+                      <h4 className="font-bold text-lg text-blue-700 mb-3">{cityGroup.city}</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {cityGroup.clients.map((client, clientIdx) => (
+                          <div key={clientIdx} className="text-sm text-slate-600 py-2 px-3 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors">
+                            {client}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <span className="text-slate-600 font-medium group-hover:text-amber-800 transition-colors text-sm sm:text-base">
-                      {bank.name}
-                    </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
