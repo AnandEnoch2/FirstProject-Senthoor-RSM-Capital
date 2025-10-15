@@ -54,7 +54,7 @@ export const Services = () => {
   const services = [
     {
       id: 'gold-finance',
-      title: homeData?.acf?.sub_title1 || 'Gold Finance Solutions',
+      title: homeData?.acf?.sub_title1 || '',
       description: homeData?.acf?.sub_title1_para || '',
       icon: Coins,
       gradient: 'from-yellow-400 via-orange-500 to-red-500',
@@ -70,7 +70,7 @@ export const Services = () => {
     },
     {
       id: 'property-valuation',
-      title: homeData?.acf?.sub_title2 || 'Property Valuation Services',
+      title: homeData?.acf?.sub_title2 || '',
       description: homeData?.acf?.sub_title2_para || '',
       icon: Home,
       gradient: 'from-blue-500 via-purple-500 to-pink-500',

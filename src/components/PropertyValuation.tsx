@@ -241,6 +241,7 @@ export const PropertyValuation = () => {
           </div>
         </div>
       </div>
+      </div>
 
       <style jsx>{`
         .slider::-webkit-slider-thumb {

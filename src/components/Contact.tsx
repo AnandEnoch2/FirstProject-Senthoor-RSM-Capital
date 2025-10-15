@@ -64,9 +64,9 @@ export const Contact = () => {
       icon: Phone,
       title: "Phone",
       details: [
-           homeData?.acf?.phone1 ? `+91 ${homeData?.acf?.phone1}` : "+91 9788752611",
-           homeData?.acf?.phone2 ? `+91 ${homeData?.acf?.phone2}` : "+91 8838766508",
-           homeData?.acf?.phone3 ? `+91 ${homeData?.acf?.phone3}` : "+91 8838768756",
+           homeData?.acf?.phone1 ? `+91 ${homeData?.acf?.phone1}` : "",
+           homeData?.acf?.phone2 ? `+91 ${homeData?.acf?.phone2}` : "",
+           homeData?.acf?.phone3 ? `+91 ${homeData?.acf?.phone3}` : "",
           ],
       gradient: "from-green-400 to-emerald-500",
       bgGradient: "from-green-50 to-emerald-50"
@@ -74,31 +74,31 @@ export const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      details: [homeData?.acf?.email || "info@goldfinance.com", "support@goldfinance.com"],
+      details: [homeData?.acf?.email || "", homeData?.acf?.email2 ||""],
       gradient: "from-blue-400 to-cyan-500",
       bgGradient: "from-blue-50 to-cyan-50"
     },
     {
       icon: MapPin,
       title: "Address",
-      details: [homeData?.acf?.address || "Plot No:2 Jain Shanthi Villa Tamil Nadu 627005",],
+      details: [homeData?.acf?.address || "",],
       gradient: "from-purple-400 to-pink-500",
       bgGradient: "from-purple-50 to-pink-50"
     },
     {
       icon: Clock,
       title: "Business Hours",
-      details: [homeData?.acf?.business_hours || "Monday - Friday: 9:00 AM - 6:00 PM Saturday: 9:00 AM - 4:00 PM Sunday: Closed", ],
+      details: [homeData?.acf?.business_hours || "", ],
       gradient: "from-orange-400 to-red-500",
       bgGradient: "from-orange-50 to-red-50"
     }
   ];
 
   const quickStats = [
-    { icon: CheckCircle, text: homeData?.acf?.year_of_experience || "12+ Years of Experience", color: "text-green-500" },
-    { icon: MessageCircle, text: homeData?.acf?.customers || "10,000+ Satisfied Customers", color: "text-blue-500" },
-    { icon: Calendar, text: homeData?.acf?.loan_approval || "Instant Loan Approval", color: "text-purple-500" },
-    { icon: Headphones, text: homeData?.acf?.customer_support || "24/7 Customer Support", color: "text-orange-500" }
+    { icon: CheckCircle, text: homeData?.acf?.year_of_experience || "", color: "text-green-500" },
+    { icon: MessageCircle, text: homeData?.acf?.customers || "", color: "text-blue-500" },
+    { icon: Calendar, text: homeData?.acf?.loan_approval || "", color: "text-purple-500" },
+    { icon: Headphones, text: homeData?.acf?.customer_support || "", color: "text-orange-500" }
   ];
 
   return (
