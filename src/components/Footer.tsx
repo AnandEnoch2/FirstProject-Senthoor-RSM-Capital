@@ -31,18 +31,18 @@ export const Footer = () => {
   const contactDetails = [
     { icon: Phone, label: "Call Us", 
       value: [
-        `+91 ${homeData?.acf?.phone1 || "9788752611"}`,
-        `+91 ${homeData?.acf?.phone2 || "8838766508"}`,
-        `+91 ${homeData?.acf?.phone3 || "8838768756"}`,
+        `+91 ${homeData?.acf?.phone1 || ""}`,
+        `+91 ${homeData?.acf?.phone2 || ""}`,
+        `+91 ${homeData?.acf?.phone3 || ""}`,
       ], 
       color: "text-green-400"
     },
     { icon: Mail, label: "Email Us", value:
-      [homeData?.acf?.email || "info@goldfinance.com",
-       homeData?.acf?.email_2 || "support@goldfinance.com"
+      [homeData?.acf?.email || "",
+       homeData?.acf?.email_2 || ""
 
     ] , color: "text-blue-400" },
-    { icon: MapPin, label: "Visit Us", value: [homeData?.acf?.address ||"Plot No:2 Jain Shanthi Villa, Tamil Nadu 627005"], color: "text-purple-400" }
+    { icon: MapPin, label: "Visit Us", value: [homeData?.acf?.address ||""], color: "text-purple-400" }
   ];
 
   return (
@@ -70,10 +70,7 @@ export const Footer = () => {
             </div>
             
             <p className="text-gray-300 mb-4 sm:mb-6 max-w-md leading-relaxed text-sm sm:text-base" dangerouslySetInnerHTML={{ __html: homeData?.acf?.logo_para || "" }}>
-              {/* With over <span className="text-white font-semibold">12 years of experience</span>, we provide 
-              <span className="text-amber-300 font-semibold"> secure gold financing solutions</span> and 
-              <span className="text-blue-300 font-semibold"> accurate property valuations</span>, combining 
-              traditional expertise with modern technology. */}
+             
             </p>
             
             <div className="flex space-x-3 sm:space-x-4">

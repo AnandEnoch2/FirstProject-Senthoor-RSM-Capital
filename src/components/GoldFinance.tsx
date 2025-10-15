@@ -182,73 +182,7 @@ useEffect(() => {
     return calculateTotalAmount() - emiLoanAmount;
   };
 
-  // const goldLoanFeesAllIndia = [
-  //   { particular: "Service charges on Fresh loan", charge: "Rs 50 per loan account" },
-  //   { particular: "Service charges on Fresh loan under MEI scheme", charge: "0.60% of the loan amount" },
-  //   { particular: "SMS charges", charge: "Rs 5 per quarter at the time of loan closure or renewal" },
-  //   { particular: "Safe Custody Charges", charge: "Rs 5/per gram per month, payable at the time of loan closure or renewal" },
-  //   { particular: "Loan @ Home Charges", charge: "Up to Rs 500 for loan offered at home services" }
-  // ];
-
-  // const goldLoanFeesSouthIndia = [
-  //   { particular: "Service charges on Fresh loan", charge: "0.15% of the loan amount (Minimum Rs.100; Maximum Rs.1,000)" },
-  //   { particular: "Notice Charges", charge: "Rs.30/each on first 3 ordinary notice and Rs 100 for 4th notice" },
-  //   { 
-  //     particular: "CAC (Credit Appraisal Charges) – If total exposure is above Rs 3 lakhs", 
-  //     charge: "For loans:\nAbove Rs 3 lakhs to Rs 5 lakhs: Rs 25\nAbove Rs 5 lakhs to Rs 15 lakh: Rs 40\nAbove Rs 15 lakh to Rs 50 lakh: Rs 50\nAbove Rs 50 lakh: Rs 75" 
-  //   },
-  //   { particular: "Door to Door collection charges (Follow up for interest or loan recovery)", charge: "Rs.150 per customer for recovery made through customer follow up visit" }
-  // ];
-
-  // const bankGoldLoanRates = [
-  //   { lender: "Manappuram", rate: "15.19% p.a.", amount: "Up to Rs. 1.5 crore", color: "from-blue-600 to-indigo-700" },
-  //   { lender: "SBI Bank", rate: "7.30% onwards", amount: "Rs. 20,000 to Rs. 50 lakh", color: "from-blue-600 to-indigo-700" },
-  //   { lender: "Axis Bank", rate: "13% onwards", amount: "Rs. 25,001 to Rs. 25 Lakh", color: "from-blue-600 to-indigo-700" },
-  //   { lender: "SBI", rate: "7.50% onwards", amount: "Rs. 20,000 to Rs. 50 Lakh", color: "from-blue-600 to-indigo-700" },
-  //   { lender: "Muthoot Fincorp", rate: "11.99% onwards", amount: "Rs. 1,500 to Unlimited", color: "from-blue-600 to-indigo-700" },
-  //   { lender: "ICICI Bank", rate: "10% onwards", amount: "Rs. 10,000 to Rs. 1 crore", color: "from-blue-600 to-indigo-700" },
-  //   { lender: "Canara Bank", rate: "7.65% p.a.", amount: "Rs. 5,000 to Rs. 20 lakh", color: "from-blue-600 to-indigo-700" },
-  //   { lender: "HDFC Bank", rate: "9.90% onwards", amount: "Rs. 25,000 to Unlimited", color: "from-blue-600 to-indigo-700" }
-  // ];
-
-  // const gokulamSchemes = [
-  //   {
-  //     scheme: "GL- PR Scheme",
-  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-  //     slab: ["12%", "25%", "28%"],
-  //     annualizedRate: "22.03%",
-  //     gradient: "from-blue-500 to-indigo-600"
-  //   },
-  //   {
-  //     scheme: "GL – RSM Scheme",
-  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-  //     slab: ["18.50", "25.00", "28.00"],
-  //     annualizedRate: "24.30",
-  //     gradient: "from-blue-500 to-indigo-600"
-  //   },
-  //   {
-  //     scheme: "GL-RHS",
-  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-  //     slab: ["20.50", "27.5", "29.00"],
-  //     annualizedRate: "26.21",
-  //     gradient: "from-blue-500 to-indigo-600"
-  //   },
-  //   {
-  //     scheme: "Express Gold Loan",
-  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-  //     slab: ["26.00", "27.50", "29.00"],
-  //     annualizedRate: "29.94",
-  //     gradient: "from-blue-500 to-indigo-600"
-  //   },
-  //   {
-  //     scheme: "GL – HRSS",
-  //     tenure: ["0-30 Days", "31-60 Days", "61-90 Days"],
-  //     slab: ["26.00", "27.00", "28.00"],
-  //     annualizedRate: "30.32",
-  //     gradient: "from-blue-500 to-indigo-600"
-  //   }
-  // ];
-
+ 
   const features = [
     {
       icon: Zap,
