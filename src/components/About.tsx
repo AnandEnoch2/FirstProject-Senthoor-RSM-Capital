@@ -145,28 +145,11 @@ export const About = () => {
               <Star className="w-5 h-5" />
               <span>About Our Company</span>
             </div>
-
-            {/* <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-4 sm:mb-6 px-4 lg:px-0">
-              Tamil Nadu's Premier Gold Finance &
-              <span className="block">Property Valuation Experts Since 2013</span>
-            </h2> */}
-            
             <p className=" text-blue-700 text-base sm:text-lg lg:text-xl  mb-6 sm:mb-8 leading-relaxed px-4 lg:px-0">
               <p className="text-blue-700 font-bold"  dangerouslySetInnerHTML={{ __html: homeData?.acf?.about_para }}></p>
-              {/* Established in <span className="text-blue-700 font-bold">2013</span>, we are Tamil Nadu's leading 
-              <span className="text-blue-700 font-bold"> gold finance and property valuation company</span> with over 
-              <span className="text-amber-600 font-bold"> 12 years of proven expertise</span>. We have successfully served 
-              <span className="text-blue-700 font-bold"> 10,000+ satisfied customers</span> across Tamil Nadu, Kerala, and beyond. */}
             </p>
             
-            {/* <p className="text-sm sm:text-base lg:text-lg text-slate-600 mb-6 sm:mb-8 leading-relaxed px-4 lg:px-0">
-              As a <span className="text-blue-700 font-bold">government-certified valuation company</span> operating since 2013, 
-              we provide <span className="text-amber-600 font-semibold">instant gold loans</span> and 
-              <span className="text-blue-700 font-semibold"> bank-approved property valuations</span> across Tamil Nadu. 
-              Our <span className="text-blue-700 font-semibold">certified professionals</span> serve clients in Madurai, 
-              Chennai, Coimbatore, Tirunelveli, and throughout South India with <span className="text-black font-semibold">transparent pricing</span> 
-              and <span className="text-amber-600 font-semibold"> same-day service</span>.
-            </p> */}
+           
 
             {/* Animated Stats */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6 px-4 lg:px-0">
