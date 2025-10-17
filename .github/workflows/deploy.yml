@@ -1,0 +1,42 @@
+name: Deploy React/Vite to cPanel
+
+on:
+  push:
+    branches:
+      - main  # or 'master' - the branch you want to deploy from
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use your project's Node version
+
+      - name: Install dependencies and Build project
+        run: |
+          npm install
+          npm run build
+          # The production build will be in the 'dist' folder
+
+      - name: Deploy via SSH and Rsync
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          # The script command uses 'rsync' to transfer the 'dist' contents
+          # from the GitHub runner to your cPanel public_html directory.
+          # The '/home/cpaneluser/' part is often the full path,
+          # replace cpaneluser with your actual cPanel username.
+          script: |
+            # Full path to your website root (e.g., public_html)
+            REMOTE_DIR="/home/${{ secrets.SSH_USERNAME }}/public_html" 
+            
+            # Use rsync to delete old files and copy new ones
+            rsync -avz --delete dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:$REMOTE_DIR/
