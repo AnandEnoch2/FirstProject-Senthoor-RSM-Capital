@@ -36,7 +36,7 @@ jobs:
           # replace cpaneluser with your actual cPanel username.
           script: |
             # Full path to your website root (e.g., public_html)
-            REMOTE_DIR="/home/${{ secrets.SSH_USERNAME }}/public_html" 
+            REMOTE_DIR="/home/${{ secrets.SSH_USERNAME }}/senthoorrsmcapital.com" 
             
             # Use rsync to delete old files and copy new ones
             rsync -avz --delete dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:$REMOTE_DIR/
