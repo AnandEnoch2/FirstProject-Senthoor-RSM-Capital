@@ -8,7 +8,7 @@ export const Footer = () => {
 
   useEffect(() => {
     // Fetch Home page data from WordPress
-    fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+    fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/pages/155")
       .then((res) => res.json())
       .then((data) => setHomeData(data))
       .catch((err) => console.log(err));
