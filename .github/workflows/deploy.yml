@@ -1,42 +1,44 @@
-name: Deploy React/Vite to cPanel
+name: 🚀 Deploy React/Vite to cPanel via FTP
 
 on:
   push:
     branches:
-      - main  # or 'master' - the branch you want to deploy from
+      - main  # Change this to your primary branch (e.g., master)
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      # Step 1: Checkout the code
+      - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      # Step 2: Set up Node.js environment
+      - name: 🟢 Use Node.js 18
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use your project's Node version
+          node-version: '18' # Use a Node.js version compatible with your project
 
-      - name: Install dependencies and Build project
-        run: |
-          npm install
-          npm run build
-          # The production build will be in the 'dist' folder
+      # Step 3: Install dependencies
+      - name: 📦 Install dependencies
+        run: npm install
 
-      - name: Deploy via SSH and Rsync
-        uses: appleboy/ssh-action@v1.0.3
+      # Step 4: Build the Vite/React project
+      # The build output is typically in the 'dist' folder for Vite
+      - name: 🛠️ Build Project
+        run: npm run build
+      
+      # Step 5: Deploy the built files via FTP
+      - name: 📤 Deploy via FTP to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          # The script command uses 'rsync' to transfer the 'dist' contents
-          # from the GitHub runner to your cPanel's directory.
-          # The '/home/cpaneluser/' part is often the full path,
-          # replace cpaneluser with your actual cPanel username.
-          script: |
-            # Full path to your website root (e.g., public_html)
-            REMOTE_DIR="/home/${{ secrets.SSH_USERNAME }}/senthoorrsmcapital.com" 
-            
-            # Use rsync to delete old files and copy new ones
-            rsync -avz --delete dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:$REMOTE_DIR/
+          # Required secrets
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # The directory to upload FROM (Vite's default build folder)
+          local-dir: ./dist/ 
+          # The directory to upload TO (on your cPanel server)
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Optionally delete remote files not present locally
+          delete-remote-files: true
