@@ -9,7 +9,7 @@ export const Hero = () => {
   
     useEffect(() => {
         // Fetch Home page data from WordPress
-        fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+        fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/pages/155")
           .then(res => res.json())
           .then(data => setContactData(data))
           .catch(err => console.log(err));
@@ -19,7 +19,7 @@ export const Hero = () => {
 
    useEffect(() => {
       // Fetch Home page data from WordPress
-      fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+      fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/pages/8")
         .then(res => res.json())
         .then(data => setHomeData(data))
         .catch(err => console.log(err));
