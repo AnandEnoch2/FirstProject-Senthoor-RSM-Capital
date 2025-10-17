@@ -23,7 +23,7 @@ export const GoldFinance = () => {
     
       useEffect(() => {
           // Fetch Home page data from WordPress
-          fetch("http://localhost/wordpress/wp-json/wp/v2/pages/155")
+          fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/pages/155")
             .then(res => res.json())
             .then(data => setContactData(data))
             .catch(err => console.log(err));
@@ -34,7 +34,7 @@ export const GoldFinance = () => {
 
    useEffect(() => {
     // Fetch data from WordPress REST API
-    fetch("http://localhost/wordpress/wp-json/wp/v2/gold_loans?orderby=id&order=asc")
+    fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/gold_loans?orderby=id&order=asc")
       .then((res) => res.json())
       .then((data) => {
         // Map API response to your table structure
@@ -56,7 +56,7 @@ export const GoldFinance = () => {
 
    useEffect(() => {
     // Fetch Home page data from WordPress
-    fetch("http://localhost/wordpress/wp-json/wp/v2/pages/8")
+    fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/pages/8")
       .then(res => res.json())
       .then(data => setHomeData(data))
       .catch(err => console.log(err));
@@ -65,7 +65,7 @@ export const GoldFinance = () => {
 
 
   useEffect(() => {
-  fetch("http://localhost/wordpress/wp-json/wp/v2/all_over_india?orderby=id&order=asc")
+  fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/all_over_india?orderby=id&order=asc")
     .then((res) => {
       if (!res.ok) throw new Error("Network response was not ok");
       return res.json();
@@ -85,7 +85,7 @@ export const GoldFinance = () => {
 }, []);
 
  useEffect(() => {
-  fetch("http://localhost/wordpress/wp-json/wp/v2/south_india?orderby=id&order=asc")
+  fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/south_india?orderby=id&order=asc")
     .then((res) => {
       if (!res.ok) throw new Error("Network response was not ok");
       return res.json();
@@ -105,7 +105,7 @@ export const GoldFinance = () => {
 }, []);
 
 useEffect(() => {
-  fetch("http://localhost/wordpress/wp-json/wp/v2/fees_charges?orderby=id&order=asc")
+  fetch("https://senthoorrsmcapital.com/wordpress/wp-json/wp/v2/fees_charges?orderby=id&order=asc")
     .then((res) => {
       if (!res.ok) throw new Error("Network response was not ok");
       return res.json();
