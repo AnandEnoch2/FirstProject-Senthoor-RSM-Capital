@@ -31,7 +31,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           # The script command uses 'rsync' to transfer the 'dist' contents
-          # from the GitHub runner to your cPanel public_html directory.
+          # from the GitHub runner to your cPanel's directory.
           # The '/home/cpaneluser/' part is often the full path,
           # replace cpaneluser with your actual cPanel username.
           script: |
