@@ -48,6 +48,41 @@ export const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+
+    const serviceMap: { [key: string]: string } = {
+
+      'gold-finance': 'Gold Finance',
+
+      'property-valuation': 'Property Valuation',
+
+      'both': 'Both Services',
+
+      'consultation': 'General Consultation'
+
+    };
+
+
+
+    const message = `Hello! I'm interested in your services.
+
+
+
+*Name:* ${formData.name}
+
+*Email:* ${formData.email}
+
+*Phone:* ${formData.phone}
+
+*Service:* ${serviceMap[formData.service]}
+
+${formData.message ? `*Message:* ${formData.message}` : ''}`;
+
+
+
+    const whatsappUrl = `https://wa.me/918056312849?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, '_blank');
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 3000);
   };
