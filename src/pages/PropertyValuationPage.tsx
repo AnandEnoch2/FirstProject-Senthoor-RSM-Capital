@@ -254,7 +254,7 @@ export const PropertyValuationPage = () => {
               <a href="tel:+918056312849" className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-800 transition-all duration-500 transform hover:scale-105 shadow-lg">
                 <span className="flex items-center space-x-2">
                   <Phone className="w-5 h-5" />
-                  <span>Call +91 {homeData?.acf?.phone}</span>
+                  <span>Call +91 8056312849 {homeData?.acf?.phone}</span>
                 </span>
               </a>
             </div>
