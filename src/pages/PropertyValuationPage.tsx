@@ -788,7 +788,7 @@ export const PropertyValuationPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a href="tel:+918056312849" className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2">
                 <Phone className="w-5 h-5" />
-                <span>Call +91 {homeData?.acf?.phone}</span>
+                <span>Call +91 8056312849 {homeData?.acf?.phone}</span>
               </a>
             </div>
 
